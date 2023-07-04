@@ -1,0 +1,11 @@
+version: "3"
+services:
+  db:
+    image: postgres:11-alpine
+    environment:
+      POSTGRES_PASSWORD: gamesapi
+      POSTGRES_USER: gamesapi
+      POSTGRES_DB: gamesapi
+    ports:
+      - "5432:5432"
+  
