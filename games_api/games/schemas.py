@@ -1,13 +1,13 @@
 from pydantic import Field
 
-from games_api.contrib.schemas import BaseSchemaMixin
+from games_api.contrib.schemas import BaseSchema
 
 
-class PlayerSchema(BaseSchemaMixin):
+class PlayerSchema(BaseSchema):
     name: str = Field(title='Player name', example='Isgalamido')
 
 
-class GameSchema(BaseSchemaMixin):
+class GameSchema(BaseSchema):
     name: str = Field(..., title='Game Name', example='game_1')
     players: list[PlayerSchema] = Field(
         ..., title='Game players', example=["Dono da bola", "Isgalamido", "Zeh"]
