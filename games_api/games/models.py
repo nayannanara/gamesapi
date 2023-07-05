@@ -28,15 +28,3 @@ class GameModel(BaseModel):
     total_kills: Mapped[int] = mapped_column(Integer, nullable=False)
     kills: Mapped[dict[str, int]] = mapped_column(JSON)
     players: Mapped[list['PlayerModel']] = relationship(back_populates='game', lazy='selectin', uselist=True)
-
-    @classmethod
-    def parse_schema(
-        cls: Type[TYPE_GAME_MODEL],
-        game: GameSchema,
-    ) -> 'GameModel':
-        model = GameModel(
-            **game.dict(exclude={'players'}),
-            players=[PlayerModel(**game.players.dict())]
-        )
-        
-        return model
