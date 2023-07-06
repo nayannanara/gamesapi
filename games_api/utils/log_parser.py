@@ -1,14 +1,19 @@
 import re
 import sqlalchemy
 
+from games_api.configs.transaction import insert_model
+from games_api.contrib.dependencies import DatabaseDependency
+
 from games_api.contrib.exceptions import DatabaseException
 from games_api.games.models import GameModel, PlayerModel
 from games_api.games.schemas import GameSchema, PlayerSchema
 
-from games_api.configs.database import insert_stmt
-
 
 class GameProcess:
+    def __init__(self: 'GameProcess', session: DatabaseDependency = DatabaseDependency) -> None:
+        self.session = session
+
+
     def logger_game_parser(self: 'GameProcess'):
         with open("games.log") as f:
             lines = f.readlines()
@@ -72,12 +77,12 @@ class GameProcess:
         )
 
     
-    async def insert_games(self: 'GameProcess'):
+    async def create_games(self: 'GameProcess', session: DatabaseDependency = DatabaseDependency):
         games_schema = self.get_games_schema()
-
+        
         try:
             for game in games_schema:
-                await insert_stmt(self.get_game_model(game))
+                await insert_model(model=self.get_game_model(game), session=session)
         except sqlalchemy.exc.DBAPIError:
             raise DatabaseException(
                 message='Ocorreu um erro ao inserir o dado no banco de dados.'
