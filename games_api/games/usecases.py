@@ -6,7 +6,12 @@ from sqlalchemy.sql import select
 
 
 class GameUseCase:
-    async def query(self: 'GameUseCase', session: DatabaseDependency) -> list[GameSchema]:   
-        games = (await session.execute(select(GameModel))).scalars().all()
+    async def query(
+            self: 'GameUseCase', 
+            session: DatabaseDependency, 
+            limit: int | None = None, 
+            offset: int | None = None
+        ) -> list[GameSchema]:   
+        games = (await session.execute(select(GameModel).limit(limit).offset(offset))).scalars().all()
 
         return [GameSchema.from_orm(game) for game in games]
