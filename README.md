@@ -5,13 +5,13 @@ Esta API tem como objetivo extrair algumas informações de um arquivo `games.lo
 Para cada jogo o parser cria um json nesta estrutura:
 
 ```json
-  game_1: {
-      total_kills: 45;
-      players: ["Dono da bola", "Isgalamido", "Zeh"]
-      kills: {
+  "game_1": {
+      "total_kills": 45,
+      "players": ["Dono da bola", "Isgalamido", "Zeh"],
+      "kills": {
         "Dono da bola": 5,
         "Isgalamido": 18,
-        "Zeh": 20
+        "Zeh": 20,
       }
     }
 ```
