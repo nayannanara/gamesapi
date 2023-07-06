@@ -74,7 +74,7 @@ _Chamada_:
 
 ```shell
 curl -X 'GET' \
-  'http://127.0.0.1:8000/api/v0/games/' \
+  'http://127.0.0.1:8000/api/v0/games/?limit=2&offset=0' \
   -H 'accept: application/json'
 ```
 
