@@ -122,7 +122,7 @@ Para executar os testes, execute:
 ```bash
 make test
 ```
-Os testes implementados neste projeto atingem uma cobertura de 97%, para execução:
+Os testes implementados neste projeto atingem uma cobertura de 98%, para execução:
 
 ```bash
 make coverage
