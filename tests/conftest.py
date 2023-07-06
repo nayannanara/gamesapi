@@ -26,7 +26,7 @@ def event_loop() -> Generator:
     loop.close()
 
 
-@pytest.fixture()
+@pytest.fixture
 async def db_session() -> AsyncSession:
     async with engine.begin() as connection:
         await connection.run_sync(BaseModel.metadata.drop_all)
@@ -82,8 +82,8 @@ def gameusecase():
 
 
 @pytest.fixture
-async def database_games(game_process):
-    await game_process.insert_games()
+async def database_games(game_process, db_session):
+    await game_process.create_games(session=db_session)
 
 
 @pytest.fixture

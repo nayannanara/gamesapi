@@ -35,19 +35,19 @@ async def test_unit_get_games_model(game_process, get_games_schema):
         assert isinstance(item.players[0], PlayerModel)
 
 
-@mock.patch('games_api.utils.log_parser.insert_stmt')
-async def test_unit_insert_games(mock_commit, game_process):
-    await game_process.insert_games()
+@mock.patch('sqlalchemy.ext.asyncio.AsyncSession.commit')
+async def test_unit_create_games(mock_commit, game_process, db_session):
+    await game_process.create_games(session=db_session)
 
 
-@mock.patch('games_api.utils.log_parser.insert_stmt')
-async def test_unit_insert_games_should_return_raise(mock_commit, game_process):
+@mock.patch('sqlalchemy.ext.asyncio.AsyncSession.commit')
+async def test_unit_create_games_should_return_raise(mock_commit, game_process, db_session):
     mock_commit.side_effect = sqlalchemy.exc.DBAPIError(
         mock.MagicMock(), mock.MagicMock(), mock.MagicMock()
     )
 
     with pytest.raises(DatabaseException) as exc:
-        await game_process.insert_games()
+        await game_process.create_games(session=db_session)
 
     assert isinstance(exc.value, DatabaseException)
     assert (
