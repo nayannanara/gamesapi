@@ -1,18 +1,9 @@
 def minimal_game():
-    return [
-        {
-            "game_1":{
-                "total_kills":11,
-                "players":{
-                    "Mocinha",
-                    "Isgalamido",
-                    "Dono da Bola",
-                },
-                "kills":{
-                    "Isgalamido":-7,
-                    "Dono da Bola":0,
-                    "Mocinha":-2,
-                }
-            }
+    return [{
+        "game_1":{
+            "name":"game_1",
+            "players":{"Isgalamido"},
+            "total_kills":1,
+            "kills":{"Isgalamido":0}
         }
-    ]
+    }]

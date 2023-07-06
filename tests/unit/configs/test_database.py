@@ -10,7 +10,7 @@ from games_api.games.models import GameModel
 
 
 @mock.patch('sqlalchemy.ext.asyncio.AsyncSession.commit')
-async def test_insert_stmt(mock_commit, game_model):
+async def test_unit_insert_stmt(mock_commit, game_model):
     mock_commit.side_effect = sqlalchemy.exc.DBAPIError(
         mock.MagicMock(), mock.MagicMock(), mock.MagicMock()
     )

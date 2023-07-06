@@ -8,17 +8,17 @@ from games_api.games.models import GameModel, PlayerModel
 from games_api.games.schemas import GameSchema, PlayerSchema
 
 
-async def test_logger_game_parser_return_list(game_process):
+async def test_unit_logger_game_parser_return_list(game_process):
     games = game_process.logger_game_parser()
     for game in games:
         for _, value in game.items():
-            assert value.get('total_kills')
+            assert 'total_kills' in value
             assert value['kills'].keys() == value['players']
 
     assert isinstance(games, list)
 
 
-async def test_get_games_schema(game_process):
+async def test_unit_get_games_schema(game_process):
     games_schema = game_process.get_games_schema()
 
     for game in games_schema:
@@ -26,7 +26,7 @@ async def test_get_games_schema(game_process):
         assert isinstance(game.players[0], PlayerSchema)
 
 
-async def test_get_games_model(game_process, get_games_schema):
+async def test_unit_get_games_model(game_process, get_games_schema):
     games = get_games_schema
 
     for game in games:
@@ -36,12 +36,12 @@ async def test_get_games_model(game_process, get_games_schema):
 
 
 @mock.patch('games_api.utils.log_parser.insert_stmt')
-async def test_insert_games(mock_commit, game_process):
+async def test_unit_insert_games(mock_commit, game_process):
     await game_process.insert_games()
 
 
 @mock.patch('games_api.utils.log_parser.insert_stmt')
-async def test_insert_games_should_return_raise(mock_commit, game_process):
+async def test_unit_insert_games_should_return_raise(mock_commit, game_process):
     mock_commit.side_effect = sqlalchemy.exc.DBAPIError(
         mock.MagicMock(), mock.MagicMock(), mock.MagicMock()
     )

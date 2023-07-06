@@ -1,5 +1,4 @@
 import asyncio
-from unittest import mock
 import pytest
 
 from typing import AsyncGenerator, Callable, Generator
@@ -11,9 +10,10 @@ from sqlalchemy.ext.asyncio.session import AsyncSession
 
 from games_api.configs.database import async_session, engine, get_session
 from games_api.contrib.models import BaseModel
-from games_api.games.schemas import GameSchema, PlayerSchema
 from games_api.utils.log_parser import GameProcess
 from games_api.games.models import GameModel, PlayerModel
+from games_api.games.usecases import GameUseCase
+
 from tests.factories import minimal_game
 
 from .fixture_package.routers import routers as fixture_routers
@@ -26,7 +26,7 @@ def event_loop() -> Generator:
     loop.close()
 
 
-@pytest.fixture
+@pytest.fixture()
 async def db_session() -> AsyncSession:
     async with engine.begin() as connection:
         await connection.run_sync(BaseModel.metadata.drop_all)
@@ -49,13 +49,12 @@ def database(db_session: AsyncSession) -> Callable:
 @pytest.fixture
 def app(database: Callable) -> FastAPI:
     from games_api.main import app
-    
-    app.dependency_overrides[get_session] = database        
+
+    app.dependency_overrides[get_session] = database
 
     return app
 
 
-@pytest.mark.anyio
 @pytest.fixture
 async def client(app: FastAPI) -> AsyncGenerator:
     async with AsyncClient(app=app, base_url='http://games') as ac:
@@ -78,6 +77,11 @@ def game_process():
 
 
 @pytest.fixture
+def gameusecase():
+    return GameUseCase()
+
+
+@pytest.fixture
 async def database_games(game_process):
     await game_process.insert_games()
 
@@ -87,6 +91,7 @@ async def mock_get_games_schema(mocker: MockerFixture):
     return mocker.patch.object(
         GameProcess, 'logger_game_parser', return_value=minimal_game()
     )
+
 
 @pytest.fixture
 def get_games_schema(mock_get_games_schema, game_process):
@@ -103,3 +108,8 @@ async def game_model(get_games_schema):
                 for player in game.players
             ]
         )
+
+
+@pytest.fixture
+async def mock_usecase_query_games(mocker: MockerFixture, get_games_schema):
+    return mocker.patch.object(GameUseCase, 'query', return_value=get_games_schema)
