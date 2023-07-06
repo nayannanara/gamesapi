@@ -14,17 +14,15 @@ class PlayerModel(BaseModel):
 
     pk_id: Mapped[int] = mapped_column(Integer, primary_key=True)
     name: Mapped[str] = mapped_column(String(40), nullable=False)
-    game: Mapped['GameModel'] = relationship(
-        'GameModel', back_populates='players'
-    )
+    game_pk_id: Mapped[int] = mapped_column(Integer, ForeignKey('games.pk_id'), nullable=False, index=True)
+    game: Mapped['GameModel'] = relationship(back_populates='players', lazy='selectin')
 
 
 class GameModel(BaseModel):
     __tablename__ = 'games'
 
     pk_id: Mapped[int] = mapped_column(Integer, primary_key=True)
-    player_pk_id: Mapped[int] = mapped_column(ForeignKey("players.pk_id"))
     name: Mapped[str] = mapped_column(String(40), nullable=False)
     total_kills: Mapped[int] = mapped_column(Integer, nullable=False)
     kills: Mapped[dict[str, int]] = mapped_column(JSON)
-    players: Mapped[list['PlayerModel']] = relationship(back_populates='game', lazy='selectin', uselist=True)
+    players: Mapped[list['PlayerModel']] = relationship(back_populates='game', lazy='selectin')
