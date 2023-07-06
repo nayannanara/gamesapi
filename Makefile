@@ -8,7 +8,7 @@ create-migrations:
 	@PYTHONPATH=$PYTHONPATH:$(pwd) alembic revision --autogenerate -m $(description)	
 
 insert-games:
-	@PYTHONPATH=$PYTHONPATH:$(pwd) python -c "import asyncio; from games_api.utils.log_parser import GameProcess; asyncio.run(GameProcess().insert_games())"
+	@PYTHONPATH=$PYTHONPATH:$(pwd) python -c "import asyncio; from games_api.utils.log_parser import GameProcess; asyncio.run(GameProcess().create_games())"
 
 test:
 	@pytest
