@@ -61,6 +61,14 @@ e acesse: http://127.0.0.1:8000/docs
 
 Para visualizar os dados cadastradaos na base, execute a seguinte `request`:
 
+**Parâmetros de consulta**
+
+| Campo | Tipo | Descrição | Obrigatório |
+|-------------|--------|----|---------------|
+| `limit` | int | Limit | _Não_ |
+| `offset` | int | Offset | _Não_ |
+| `player__name` | str | Nome do jogador do jogo | _Não_ |
+
 
 _Chamada_:
 
