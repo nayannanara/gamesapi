@@ -9,9 +9,8 @@ from games_api.configs.database import insert_stmt
 
 
 class GameProcess:
-    
     def logger_game_parser(self: 'GameProcess'):
-        with open("games_.log") as f:
+        with open("games.log") as f:
             lines = f.readlines()
 
             game_n = 0
