@@ -9,9 +9,9 @@ router = APIRouter()
 
 @router.get('/', status_code=status.HTTP_200_OK)
 async def query(
-    db_session: DatabaseDependency,
+    session: DatabaseDependency,
     use_case: GameUseCase = Depends(),
 ) -> list[GameSchema]:
-    games = await use_case.query(db_session=db_session)
+    games = await use_case.query(session=session)
 
     return games

@@ -76,13 +76,13 @@ class GameProcess:
             ]
         )
 
-    
-    async def create_games(self: 'GameProcess', session: DatabaseDependency = DatabaseDependency):
+
+    async def create_games(self: 'GameProcess'):
         games_schema = self.get_games_schema()
-        
+
         try:
             for game in games_schema:
-                await insert_model(model=self.get_game_model(game), session=session)
+                await insert_model(model=self.get_game_model(game), session=self.session)
         except sqlalchemy.exc.DBAPIError:
             raise DatabaseException(
                 message='Ocorreu um erro ao inserir o dado no banco de dados.'

@@ -36,18 +36,18 @@ async def test_unit_get_games_model(game_process, get_games_schema):
 
 
 @mock.patch('sqlalchemy.ext.asyncio.AsyncSession.commit')
-async def test_unit_create_games(mock_commit, game_process, db_session):
-    await game_process.create_games(session=db_session)
+async def test_unit_create_games(mock_commit, game_process):
+    await game_process.create_games()
 
 
 @mock.patch('sqlalchemy.ext.asyncio.AsyncSession.commit')
-async def test_unit_create_games_should_return_raise(mock_commit, game_process, db_session):
+async def test_unit_create_games_should_return_raise(mock_commit, game_process):
     mock_commit.side_effect = sqlalchemy.exc.DBAPIError(
         mock.MagicMock(), mock.MagicMock(), mock.MagicMock()
     )
 
     with pytest.raises(DatabaseException) as exc:
-        await game_process.create_games(session=db_session)
+        await game_process.create_games()
 
     assert isinstance(exc.value, DatabaseException)
     assert (

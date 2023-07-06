@@ -72,8 +72,8 @@ def query_url():
 
 
 @pytest.fixture
-def game_process():
-    return GameProcess()
+def game_process(db_session):
+    return GameProcess(session=db_session)
 
 
 @pytest.fixture
@@ -82,9 +82,9 @@ def gameusecase():
 
 
 @pytest.fixture
-async def database_games(game_process, db_session):
-    await game_process.create_games(session=db_session)
-
+async def database_games(game_process):
+    await game_process.create_games()
+    
 
 @pytest.fixture
 async def mock_get_games_schema(mocker: MockerFixture):
