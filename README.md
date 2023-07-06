@@ -81,36 +81,45 @@ curl -X 'GET' \
 _Resposta_:
 
 ```json
-[
-  {
-    "name": "game_1",
-    "players": [
-      {
-        "name": "Dono da Bola"
+{
+  "items": [
+    {
+      "name": "game_1",
+      "players": [
+        {
+          "name": "Isgalamido"
+        }
+      ],
+      "total_kills": 0,
+      "kills": {
+        "Isgalamido": 0
       }
-    ],
-    "total_kills": 11,
-    "kills": {
-      "Isgalamido": -7,
-      "Dono da Bola": 0,
-      "Mocinha": -1
-    }
-  },
-  {
-    "name": "game_1",
-    "players": [
-      {
-        "name": "Isgalamido"
+    },
+    {
+      "name": "game_2",
+      "players": [
+        {
+          "name": "Isgalamido"
+        },
+        {
+          "name": "Dono da Bola"
+        },
+        {
+          "name": "Mocinha"
+        }
+      ],
+      "total_kills": 11,
+      "kills": {
+        "Isgalamido": -7,
+        "Dono da Bola": 0,
+        "Mocinha": -1
       }
-    ],
-    "total_kills": 11,
-    "kills": {
-      "Isgalamido": -7,
-      "Dono da Bola": 0,
-      "Mocinha": -1
     }
-  }
-]
+  ],
+  "total": 21,
+  "limit": 2,
+  "offset": 0
+}
 ```
 
 **Códigos de retorno da API**
