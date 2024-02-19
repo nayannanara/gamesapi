@@ -46,8 +46,7 @@ jobs:
   
       - name: Run tests with Coverage
         run: |
-          coverage run -m pytest
-          coverage report -m --fail-under=90  # Ajuste o percentual de cobertura aqui
+          make coverage
   
       - name: Upload coverage report
         uses: actions/upload-artifact@v2
