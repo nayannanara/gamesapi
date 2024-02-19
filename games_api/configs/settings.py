@@ -8,7 +8,7 @@ class Settings(BaseSettings):
 
     API_VERSION: str = Field(default='/api/v0')
     DB_URL: str = Field(
-        default='postgresql+asyncpg://gamesapi:gamesapi@localhost/gamesapi'
+        default='postgresql+asyncpg://gamesapi:gamesapi@postgres/gamesapi'
     )
 
     class Config:
