@@ -17,5 +17,5 @@ test-matching:
 	@pytest -s -rx -k $(Q) --pdb games_api ./tests/
 
 coverage:
-	@PYTHONPATH=$PYTHONPATH:$(pwd) pytest --cov=apps --cov=games_api --cov-report=term-missing --cov-report=xml ./tests/	
-	@PYTHONPATH=$PYTHONPATH:$(pwd) pytest coverage report -m --fail-under=90
+	@pytest --cov=apps --cov=games_api --cov-report=term-missing --cov-report=xml ./tests/	
+	@pytest coverage report -m --fail-under=90
