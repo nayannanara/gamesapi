@@ -46,9 +46,10 @@ jobs:
 
       - name: Install dependencies
         run: make install
-        
+
       - name: Run tests with Coverage
         run: |
+          pip install pytest
           make coverage
   
       - name: Upload coverage report
