@@ -49,9 +49,9 @@ jobs:
     needs: [CI]
     steps:
       - name: Copia os arquivos do repositório
-          uses: actions/checkout@v4.1.1
+        uses: actions/checkout@v4.1.1
       
-      - name: Definindo context
+      - name: Definindo O context
         uses: Azure/k8s-set-context@3.0
         with:
           method: kubeconfig
