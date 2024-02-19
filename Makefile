@@ -19,7 +19,3 @@ test-matching:
 coverage:
 	@PYTHONPATH=$PYTHONPATH:$(pwd) pytest --cov=apps --cov=games_api --cov-report=term-missing --cov-report=xml ./tests/	
 	@PYTHONPATH=$PYTHONPATH:$(pwd) pytest coverage report -m --fail-under=90
-
-install:
-    @PYTHONPATH=$PYTHONPATH:$(pwd) pip install --upgrade pip
-    @PYTHONPATH=$PYTHONPATH:$(pwd) pip install -r requirements.txt
