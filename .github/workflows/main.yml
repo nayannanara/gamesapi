@@ -25,6 +25,6 @@ jobs:
           file: Dockerfile
           push: true
           tags: |
-            nayannanara/games_api:v1
+            nayannanara/games_api:${{github.run_number}}
             nayannanara/games_api:latest
             
