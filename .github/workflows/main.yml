@@ -11,9 +11,9 @@ jobs:
         postgres:
           image: postgres:latest
           env:
-            POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
-            POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
-            POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
+            POSTGRES_USER: gamesapi
+            POSTGRES_PASSWORD: gamesapi
+            POSTGRES_DB: gamesapi
           ports:
             - 5432:5432
           options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
@@ -31,7 +31,15 @@ jobs:
         run: docker build -t games_api:latest .
       
       - name: Verificar migrations
-        run: docker run games_api:latest make run-migrations
+        run: |
+          docker run --rm \
+            --network host \
+            -e DATABASE_URL=postgresql+asyncpg://gamesapi:gamesapi@localhost/gamesapi \
+            games_api:latest make run-migrations
 
-      - name: Run tests with coverage
-        run: docker run games_api:latest make coverage
+      - name: Run tests
+        run: |
+          docker run --rm \
+            --network host \
+            -e DATABASE_URL=postgresql+asyncpg://gamesapi:gamesapi@localhost/gamesapi \
+            games_api:latest make coverage
