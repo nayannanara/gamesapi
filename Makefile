@@ -21,5 +21,5 @@ coverage:
 	@pytest coverage report -m --fail-under=90
 
 install:
-    pip install --upgrade pip
-    pip install -r requirements.txt
+    @PYTHONPATH=$PYTHONPATH:$(pwd) pip install --upgrade pip
+    @PYTHONPATH=$PYTHONPATH:$(pwd) pip install -r requirements.txt
