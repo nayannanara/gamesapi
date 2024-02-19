@@ -19,3 +19,7 @@ test-matching:
 coverage:
 	@pytest --cov=apps --cov=games_api --cov-report=term-missing --cov-report=xml ./tests/	
 	@pytest coverage report -m --fail-under=90
+
+install:
+    pip install --upgrade pip
+    pip install -r requirements.txt
