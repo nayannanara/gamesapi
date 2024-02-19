@@ -39,14 +39,14 @@ jobs:
             nayannanara/games_api:${{github.run_number}}
             nayannanara/games_api:latest
             
-      - name: Set up Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: '3.11'
-
-      - name: Run tests with Coverage
+      - name: Run tests with coverage
         run: |
-          make coverage
+          docker run nayannanara/games_api:latest sh -c "coverage run -m pytest && coverage report -m"
+          coverage_result=$(docker run nayannanara/games_api:latest sh -c "coverage report -m | grep TOTAL | awk '{print $4}'")
+          if [ $(echo "$coverage_result < 90" | bc) -eq 1 ]; then
+            echo "A cobertura de teste é menor que 90%."
+            exit 1
+          fi
   
       - name: Upload coverage report
         uses: actions/upload-artifact@v2
