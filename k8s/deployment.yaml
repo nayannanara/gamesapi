@@ -59,7 +59,7 @@ spec:
     spec:
       containers:
         - name: web
-          image: nayannanara/games_api:v1
+          image: nayannanara/games_api
           ports:
           - containerPort: 8080
           env:
