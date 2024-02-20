@@ -63,5 +63,5 @@ jobs:
           manifests: |
             ./k8s/deployment.yaml
           images: |
-            nayannanara/games_api:${{github.run_number}}
+            nayannanara/games_api:latest
     
