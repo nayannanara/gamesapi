@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: db-deployment
+  name: db
 spec:
   selector:
     matchLabels:
@@ -13,33 +13,36 @@ spec:
     spec:
       containers:
         - name: db
-          image: postgres:13.1
+          image: postgres:15.0
           ports:
-            - containerPort: 5432
+          - containerPort: 5432
           env:
-            - name: POSTGRES_PASSWORD
-              value: gamesapi
-            - name: POSTGRES_USER
-              value: gamesapi
-            - name: POSTGRES_DB
-              value: gamesapi
+          - name: POSTGRES_DB
+            value: "gamesapi"
+          - name: POSTGRES_USER
+            value: "gamesapi"
+          - name: POSTGRES_PASSWORD
+            value: "gamesapi"  
 
 ---
+
 apiVersion: v1
 kind: Service
 metadata:
-  name: db-service
+  name: db
 spec:
-  selector:
+  selector: 
     app: db
   ports:
     - port: 5432
+  type: ClusterIP
 
 ---
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: web-deployment
+  name: web
 spec:
   replicas: 10
   selector:
@@ -49,29 +52,32 @@ spec:
     metadata:
       labels:
         app: web
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "8000"
+        prometheus.io/path: "/metrics"
     spec:
       containers:
         - name: web
           image: nayannanara/games_api:latest
           ports:
-            - containerPort: 8000
+          - containerPort: 8000
           env:
-            - name: DB_DATABASE
-              value: gamesapi
-            - name: DB_PASSWORD
-              value: gamesapi
-            - name: DB_USERNAME
-              value: gamesapi
-            - name: DB_HOST
-              value: db
-
+          - name: DB_DATABASE
+            value: "gamesapi"
+          - name: DB_USERNAME
+            value: "gamesapi"
+          - name: DB_PASSWORD
+            value: "gamesapi" 
+          - name: DB_HOST
+            value: "db"  
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: web-service
+  name: web
 spec:
-  selector:
+  selector: 
     app: web
   ports:
     - port: 80
