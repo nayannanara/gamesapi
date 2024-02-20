@@ -1,26 +1,26 @@
-version: "3"
 services:
   db:
-    image: postgres:11-alpine
+    image: postgres:13.13
+    ports:
+     - 5432:5432
     environment:
       POSTGRES_PASSWORD: gamesapi
       POSTGRES_USER: gamesapi
       POSTGRES_DB: gamesapi
-    ports:
-      - "5432:5432"
   web:
+    depends_on:
+      - db
     build:
       context: .
       dockerfile: Dockerfile
-    depends_on:
-      - db
     ports: 
-      - "8000:8000"
+      - 8080:8080
     environment:
       DB_DATABASE: gamesapi
       DB_USERNAME: gamesapi
       DB_PASSWORD: gamesapi
       DB_HOST: db
-# networks:
-#   web_net:
-#     driver: bridge
+
+networks:
+  web_net:
+    driver: bridge
