@@ -21,7 +21,7 @@ services:
       DB_DATABASE: gamesapi
       DB_USERNAME: gamesapi
       DB_PASSWORD: gamesapi
-      DB_HOST: postgre
+      DB_HOST: db
 
 networks:
   web_net:
