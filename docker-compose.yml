@@ -9,7 +9,9 @@ services:
     ports:
       - "5432:5432"
   web:
-    image: nayannanara/games_api:v1
+    build:
+      context: .
+      dockerfile: Dockerfile
     depends_on:
       - db
     ports: 
@@ -19,7 +21,6 @@ services:
       DB_USERNAME: gamesapi
       DB_PASSWORD: gamesapi
       DB_HOST: db
-
-networks:
-  web_net:
-    driver: bridge
+# networks:
+#   web_net:
+#     driver: bridge

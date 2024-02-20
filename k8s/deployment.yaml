@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
-metadata: 
-  name: db
+metadata:
+  name: db-deployment
 spec:
   selector:
     matchLabels:
@@ -23,21 +23,23 @@ spec:
               value: gamesapi
             - name: POSTGRES_DB
               value: gamesapi
+
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: db
+  name: db-service
 spec:
   selector:
     app: db
   ports:
     - port: 5432
+
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: web
+  name: web-deployment
 spec:
   replicas: 10
   selector:
@@ -49,28 +51,29 @@ spec:
         app: web
     spec:
       containers:
-      - name: web
-        image: nayannanara/games_api
-        ports:
-        - containerPort: 8000
-        env:
-        - name: DB_DATABASE
-          value: gamesapi
-        - name: DB_PASSWORD
-          value: gamesapi
-        - name: DB_USERNAME
-          value: gamesapi
-        - name: DB_HOST
-          value: db
+        - name: web
+          image: nayannanara/games_api
+          ports:
+            - containerPort: 8000
+          env:
+            - name: DB_DATABASE
+              value: gamesapi
+            - name: DB_PASSWORD
+              value: gamesapi
+            - name: DB_USERNAME
+              value: gamesapi
+            - name: DB_HOST
+              value: db
+
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: web
+  name: web-service
 spec:
   selector:
     app: web
   ports:
-  - port: 80
-    targetPort: 8000
+    - port: 80
+      targetPort: 8000
   type: LoadBalancer
