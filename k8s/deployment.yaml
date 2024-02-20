@@ -1,6 +1,6 @@
 apiVersion: apps/v1
 kind: Deployment
-metadata: 
+metadata:
   name: db
 spec:
   selector:
@@ -13,64 +13,73 @@ spec:
     spec:
       containers:
         - name: db
-          image: postgres:13.1
+          image: postgres:15.0
           ports:
-            - containerPort: 5432
+          - containerPort: 5432
           env:
-            - name: POSTGRES_PASSWORD
-              value: gamesapi
-            - name: POSTGRES_USER
-              value: gamesapi
-            - name: POSTGRES_DB
-              value: gamesapi
+          - name: POSTGRES_DB
+            value: "gamesapi"
+          - name: POSTGRES_USER
+            value: "gamesapi"
+          - name: POSTGRES_PASSWORD
+            value: "gamesapi"  
+
 ---
+
 apiVersion: v1
 kind: Service
 metadata:
   name: db
 spec:
-  selector:
+  selector: 
     app: db
   ports:
     - port: 5432
+  type: ClusterIP
+
 ---
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: kubenews
+  name: web
 spec:
   replicas: 10
   selector:
     matchLabels:
-      app: kubenews
+      app: web
   template:
     metadata:
       labels:
-        app: kubenews
+        app: web
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "8080"
+        prometheus.io/path: "/metrics"
     spec:
       containers:
-      - name: kubenews
-        image: nayannanara/games_api:v2
-        ports:
-        - containerPort: 8080
-        env:
-        - name: DB_DATABASE
-          value: gamesapi
-        - name: DB_PASSWORD
-          value: gamesapi
-        - name: DB_USERNAME
-          value: gamesapi
-        - name: DB_HOST
-          value: db
+        - name: web
+          image: nayannanara/games_api:v1
+          ports:
+          - containerPort: 8080
+          env:
+          - name: DB_DATABASE
+            value: "gamesapi"
+          - name: DB_USERNAME
+            value: "gamesapi"
+          - name: DB_PASSWORD
+            value: "gamesapi" 
+          - name: DB_HOST
+            value: "db"  
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: kubenews
+  name: web
 spec:
-  selector:
-    app: kubenews
+  selector: 
+    app: web
   ports:
-  - port: 80
-    targetPort: 8080
+    - port: 80
+      targetPort: 8080
   type: LoadBalancer
