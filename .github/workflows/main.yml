@@ -51,15 +51,17 @@ jobs:
       - name: Copia os arquivos do repositório
         uses: actions/checkout@v4.1.1
       
-      - name: Definindo O context
+      - name: Definindo o context
         uses: Azure/k8s-set-context@v3.0
         with:
           method: kubeconfig
           kubeconfig: ${{secrets.K8S_CONFIG}}
-      - name: Deploy to kubernetes cluster
-        uses: Azure/k8s-deploy@v4
-        with: 
-          images: nayannanara/games_api:${{github.run_number}}
+      
+      - name: Deploy to Kubernetes cluster
+        uses: Azure/k8s-deploy@v4.9
+        with:
           manifests: |
-            k8s/deployment.yaml
+            ./k8s/deployment.yaml
+          images: |
+            nayannanara/games_api:${{github.run_number}}
     

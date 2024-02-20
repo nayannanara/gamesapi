@@ -1,18 +1,18 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata: 
-  name: postgre
+  name: db
 spec:
   selector:
     matchLabels:
-      app: postgre
+      app: db
   template:
     metadata:
       labels:
-        app: postgre
+        app: db
     spec:
       containers:
-        - name: postgre
+        - name: db
           image: postgres:13.1
           ports:
             - containerPort: 5432
@@ -27,10 +27,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: postgre
+  name: db
 spec:
   selector:
-    app: postgre
+    app: db
   ports:
     - port: 5432
 ---
@@ -50,7 +50,7 @@ spec:
     spec:
       containers:
       - name: kubenews
-        image: nayannanara/games_api:latest
+        image: nayannanara/games_api:v2
         ports:
         - containerPort: 8080
         env:
@@ -61,7 +61,7 @@ spec:
         - name: DB_USERNAME
           value: gamesapi
         - name: DB_HOST
-          value: postgre
+          value: db
 ---
 apiVersion: v1
 kind: Service
